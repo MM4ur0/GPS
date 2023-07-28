@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widget_login_geolocalizacion/screens/home.dart';
 import 'package:widget_login_geolocalizacion/screens/login.dart';
-import 'package:widget_login_geolocalizacion/screens/show.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   final _routes = {
     '/': (context) => const Login(),
     '/home': (context) => const Home(title: "Home"),
-    '/show': (context) => const Show(),
+    //'/show': (context) => const MapScreen(),
   };
 
   // This widget is the root of your application.
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorSchemeSeed: Colors.green,
+        colorSchemeSeed: Color.fromARGB(255, 255, 251, 24),
         useMaterial3: true,
       ),
       initialRoute: '/',

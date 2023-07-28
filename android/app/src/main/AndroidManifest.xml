@@ -4,7 +4,9 @@
     <application
         android:label="widget_login_geolocalizacion"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"> 
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDo5OuZ8OSCpgnU2BuDIl_QfC4BTz6YmuE"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -17,8 +19,7 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
-            <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyCVKtT56NgIp7J3-5Q5h5dn1zsF6OcNWzA"/>
+           
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"

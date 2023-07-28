@@ -72,7 +72,7 @@ Widget _botonesAccion(BuildContext context) {
         ElevatedButton(
             onPressed: () {
               final state = key.currentState;
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushNamed(context, '/home');
               if (state!.validate()) {}
             },
             child: const Text("Ingresar")),

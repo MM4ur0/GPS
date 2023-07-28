@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:widget_login_geolocalizacion/screens/mapscreen.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 final List<_PositionItem> _positionItems = <_PositionItem>[];
@@ -15,10 +16,12 @@ enum _PositionItemType {
 }
 
 class _PositionItem {
-  _PositionItem(this.type, this.displayValue);
+  _PositionItem(this.type, this.displayValue, this.latitude, this.longitude);
 
   final _PositionItemType type;
   final String displayValue;
+  final double latitude; // Nueva propiedad para almacenar la latitud
+  final double longitude; // Nueva propiedad para almacenar la longitud
 }
 
 class Home extends StatefulWidget {
@@ -43,22 +46,45 @@ class _HomeState extends State<Home> {
         itemCount: _positionItems.length,
         itemBuilder: (context, index) {
           final positionItem = _positionItems[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                '/show',
-                //arguments: '${partidoActual.id}',
-              );
-            },
-            child: Card(
-              child: ListTile(
-                tileColor: Colors.green,
-                title: Text(
-                  positionItem.displayValue,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
+          return Card(
+            color: Color.fromARGB(255, 20, 139, 160),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(children: [
+                      Text(
+                        textAlign: TextAlign.start,
+                        "Latitude: " + positionItem.latitude.toString(),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                      Text(
+                        textAlign: TextAlign.left,
+                        "Longitude: " + positionItem.longitude.toString(),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                    ]),
+                    ElevatedButton(
+                        onPressed: () {
+                          // Navega a la pantalla de MapScreen pasando las coordenadas
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MapScreen(
+                                  latitude: positionItem
+                                      .latitude, // Aquí pasamos la latitud como parámetro
+                                  longitude: positionItem
+                                      .longitude), // Aquí pasamos la longitud como parámetro
+                            ),
+                          );
+                        },
+                        child: Text("Ver Mapa"))
+                  ],
+                )
+              ],
             ),
           );
         },
@@ -72,10 +98,24 @@ class _HomeState extends State<Home> {
             onPressed: _getCurrentPosition,
             child: const Icon(Icons.my_location),
           ),
+          SizedBox(
+            height: 7,
+          ),
           FloatingActionButton(
             heroTag: null,
             onPressed: _getClearList,
             child: const Icon(Icons.clear_all),
+          ),
+          SizedBox(
+            height: 7,
+          ),
+          FloatingActionButton(
+            heroTag: null,
+            onPressed: () {
+              // Navegar a MyHomePage y cerrar todas las rutas anteriores
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.navigate_before),
           ),
         ],
       ),
@@ -86,8 +126,10 @@ class _HomeState extends State<Home> {
     setState(_positionItems.clear);
   }
 
-  void _updatePositionList(_PositionItemType type, String displayValue) {
-    _positionItems.add(_PositionItem(type, displayValue));
+  void _updatePositionList(_PositionItemType type, String displayValue,
+      double latitude, double longitude) {
+    _positionItems.add(_PositionItem(type, displayValue, latitude,
+        longitude)); // se agregan las nuevas propiedades
     setState(() {});
   }
 
@@ -100,9 +142,10 @@ class _HomeState extends State<Home> {
 
     final position = await _geolocatorPlatform.getCurrentPosition();
     _updatePositionList(
-      _PositionItemType.position,
-      position.toString(),
-    );
+        _PositionItemType.position,
+        position.toString(), // Se agregan nuevos parametros
+        position.latitude,
+        position.longitude);
   }
 
   Future<bool> _handlePermission() async {

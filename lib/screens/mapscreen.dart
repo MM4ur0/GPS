@@ -11,6 +11,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 238, 255, 3),
           title: Text('Mapa'),
         ),
         body: GoogleMap(
@@ -27,7 +28,7 @@ class MapScreen extends StatelessWidget {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 5, 92, 34),
+          backgroundColor: Color.fromARGB(255, 238, 255, 3),
           onPressed: () {
             Navigator.pop(
                 context); // Navega hacia atrás al presionar el botón de retroceso
